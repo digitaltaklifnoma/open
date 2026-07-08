@@ -408,12 +408,7 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
 
 <script>
 (function() {
-  // ========== ПРОЕКТЫ — ЛЕГКО ДОБАВЛЯТЬ! ==========
-  // 🔸 КАК ДОБАВИТЬ НОВУЮ РАБОТУ:
-  // Скопируйте строчку ниже и вставьте в массив projects
-  // { folder: "work9", title: "НАЗВАНИЕ", tags: ["тег1", "тег2"], preview: "Краткое описание" }
-  // Где folder — это имя папки с вашей работой (папка лежит рядом с этим файлом)
-  
+  // ========== ПРОЕКТЫ ==========
   const projects = [
     { folder: "work1", title: "OQ STYLE | Белый стиль", tags: ["Белый", "Акварель", "Минимализм"], preview: "Элегантное белое приглашение" },
     { folder: "work2", title: "NAVKAR | Для друзей жениха", tags: ["Navkar", "Классика", "Шик"], preview: "Стиль для друзей жениха" },
@@ -422,7 +417,9 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
     { folder: "work5", title: "MUSLIM STYLE", tags: ["Исламский стиль", "Дуа", "Барокко"], preview: "Духовная элегантность" },
     { folder: "work6", title: "OSHGA TAKLIF 2", tags: ["Плов", "Гостеприимство", "Орнамент"], preview: "Щедрое приглашение на плов" },
     { folder: "work7", title: "МИНИМАЛИСТИКА", tags: ["Минимализм", "Чистота", "Типографика"], preview: "Лаконичное приглашение" },
-    { folder: "work8", title: "НОВАЯ", tags: ["Уют", "Белый"], preview: "Элегантное" }
+    { folder: "work8", title: "НОВАЯ", tags: ["Уют", "Белый"], preview: "Элегантное" },
+    // ========== НОВАЯ РАБОТА ==========
+    { folder: "taklifnoma", title: "TAKLIFNOMA", tags: ["Приглашение", "Свадьба", "Классика"], preview: "Элегантное свадебное приглашение" }
   ];
   
   // ========== РЕНДЕР СЕТКИ ==========
@@ -441,10 +438,11 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
       card.style.animationDelay = (idx * 0.04) + 's';
       
       let previewIcon = '';
-      if (proj.title.toLowerCase().includes('плов')) previewIcon = '';
-      else if (proj.title.toLowerCase().includes('muslim')) previewIcon = '';
-      else if (proj.title.toLowerCase().includes('бахор') || proj.title.toLowerCase().includes('весн')) previewIcon = '';
-      else previewIcon = '';
+      if (proj.title.toLowerCase().includes('плов')) previewIcon = '🍚';
+      else if (proj.title.toLowerCase().includes('muslim')) previewIcon = '🕌';
+      else if (proj.title.toLowerCase().includes('бахор') || proj.title.toLowerCase().includes('весн')) previewIcon = '🌸';
+      else if (proj.folder === "taklifnoma") previewIcon = '💍';
+      else previewIcon = '✦';
       
       card.innerHTML = `
         <div class="card-preview">
@@ -484,7 +482,11 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
   const closeModalBtn = document.getElementById('closeModalBtn');
   
   function openProject(folderName, displayTitle) {
-    const path = './' + folderName + '/index.html';
+    let path = './' + folderName + '/index.html';
+    // Если папка taklifnoma - используем invite.html
+    if (folderName === 'taklifnoma') {
+      path = './taklifnoma/invite.html';
+    }
     if (modalLabel) modalLabel.innerText = displayTitle;
     if (modalLoading) modalLoading.classList.remove('hidden');
     if (modalFrame) {
@@ -516,7 +518,7 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
   
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
   
-  // ========== ОТКРЫТИЕ ПОРТФОЛИО (без музыки) ==========
+  // ========== ОТКРЫТИЕ ПОРТФОЛИО ==========
   const startScreen = document.getElementById('startScreen');
   const openBtn = document.getElementById('openPortfolioBtn');
   const bodyEl = document.body;
