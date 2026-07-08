@@ -150,11 +150,36 @@ body.revealed .section-header {
   transition: transform 0.25s ease, border-color 0.2s;
   opacity: 0;
   transform: translateY(20px);
+  position: relative;
 }
 body.revealed .work-card { animation: cardReveal 0.5s ease forwards; }
 @keyframes cardReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .work-card:hover { transform: translateY(-5px); border-color: rgba(201,169,110,0.3); }
 .work-card:active { transform: scale(0.97); }
+
+/* ===== БЭЙДЖ "НОВЫЙ" ===== */
+.work-card .new-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  background: linear-gradient(135deg, #c9a96e, #a8854a);
+  color: #0a0c0b;
+  font-family: 'Cinzel', serif;
+  font-size: 0.45rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 15px rgba(201,169,110,0.3);
+  animation: badgePulse 2s ease-in-out infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
 .card-preview {
   position: relative;
   height: 180px;
@@ -410,16 +435,16 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
 (function() {
   // ========== ПРОЕКТЫ ==========
   const projects = [
-    { folder: "work1", title: "OQ STYLE | Белый стиль", tags: ["Белый", "Акварель", "Минимализм"], preview: "Элегантное белое приглашение" },
-    { folder: "work2", title: "NAVKAR | Для друзей жениха", tags: ["Navkar", "Классика", "Шик"], preview: "Стиль для друзей жениха" },
-    { folder: "work3", title: "БАХОР | Вайб весны", tags: ["Весна", "Цветы", "Лепестки"], preview: "Нежное весеннее настроение" },
-    { folder: "work4", title: "OSHGA TAKLIFNOMA", tags: ["Плов", "Семья", "Уют"], preview: "Тёплое приглашение на плов" },
-    { folder: "work5", title: "MUSLIM STYLE", tags: ["Исламский стиль", "Дуа", "Барокко"], preview: "Духовная элегантность" },
-    { folder: "work6", title: "OSHGA TAKLIF 2", tags: ["Плов", "Гостеприимство", "Орнамент"], preview: "Щедрое приглашение на плов" },
-    { folder: "work7", title: "МИНИМАЛИСТИКА", tags: ["Минимализм", "Чистота", "Типографика"], preview: "Лаконичное приглашение" },
-    { folder: "work8", title: "НОВАЯ", tags: ["Уют", "Белый"], preview: "Элегантное" },
-    // ========== НОВАЯ РАБОТА ==========
-    { folder: "taklifnoma", title: "TAKLIFNOMA", tags: ["Приглашение", "Свадьба", "Классика"], preview: "Элегантное свадебное приглашение" }
+    { folder: "work1", title: "OQ STYLE | Белый стиль", tags: ["Белый", "Акварель", "Минимализм"], preview: "Элегантное белое приглашение", isNew: false },
+    { folder: "work2", title: "NAVKAR | Для друзей жениха", tags: ["Navkar", "Классика", "Шик"], preview: "Стиль для друзей жениха", isNew: false },
+    { folder: "work3", title: "БАХОР | Вайб весны", tags: ["Весна", "Цветы", "Лепестки"], preview: "Нежное весеннее настроение", isNew: false },
+    { folder: "work4", title: "OSHGA TAKLIFNOMA", tags: ["Плов", "Семья", "Уют"], preview: "Тёплое приглашение на плов", isNew: false },
+    { folder: "work5", title: "MUSLIM STYLE", tags: ["Исламский стиль", "Дуа", "Барокко"], preview: "Духовная элегантность", isNew: false },
+    { folder: "work6", title: "OSHGA TAKLIF 2", tags: ["Плов", "Гостеприимство", "Орнамент"], preview: "Щедрое приглашение на плов", isNew: false },
+    { folder: "work7", title: "МИНИМАЛИСТИКА", tags: ["Минимализм", "Чистота", "Типографика"], preview: "Лаконичное приглашение", isNew: false },
+    { folder: "work8", title: "НОВАЯ", tags: ["Уют", "Белый"], preview: "Элегантное", isNew: false },
+    // ========== НОВАЯ РАБОТА (work9) с бэйджем "НОВЫЙ" ==========
+    { folder: "work9", title: "TAKLIFNOMA", tags: ["Приглашение", "Свадьба", "Классика"], preview: "Элегантное свадебное приглашение", isNew: true }
   ];
   
   // ========== РЕНДЕР СЕТКИ ==========
@@ -437,14 +462,20 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
       card.className = 'work-card';
       card.style.animationDelay = (idx * 0.04) + 's';
       
-      let previewIcon = '';
+      // Бэйдж "НОВЫЙ"
+      let badgeHtml = '';
+      if (proj.isNew) {
+        badgeHtml = '<div class="new-badge">✦ Новый</div>';
+      }
+      
+      let previewIcon = '✦';
       if (proj.title.toLowerCase().includes('плов')) previewIcon = '🍚';
       else if (proj.title.toLowerCase().includes('muslim')) previewIcon = '🕌';
       else if (proj.title.toLowerCase().includes('бахор') || proj.title.toLowerCase().includes('весн')) previewIcon = '🌸';
-      else if (proj.folder === "taklifnoma") previewIcon = '💍';
-      else previewIcon = '✦';
+      else if (proj.folder === "work9") previewIcon = '💍';
       
       card.innerHTML = `
+        ${badgeHtml}
         <div class="card-preview">
           <div class="work-num">${numStr}</div>
           <div class="preview-icon">${previewIcon}</div>
@@ -483,9 +514,9 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
   
   function openProject(folderName, displayTitle) {
     let path = './' + folderName + '/index.html';
-    // Если папка taklifnoma - используем invite.html
-    if (folderName === 'таклифнома') {
-      path = './таклифнома/invite.html';
+    // Для work9 используем invite.html
+    if (folderName === 'work9') {
+      path = './work9/invite.html';
     }
     if (modalLabel) modalLabel.innerText = displayTitle;
     if (modalLoading) modalLoading.classList.remove('hidden');
