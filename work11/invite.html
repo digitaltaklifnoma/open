@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Jasur &amp; Parvina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0; padding:0; box-sizing:border-box;}
+  html,body{
+    width:100%;
+    height:100%;
+    background:#0a0a0a;
+    overflow:hidden;
+    font-family:'Playfair Display', serif;
+    position:fixed;
+  }
+
+  .phone{
+    position:relative;
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    max-width:480px;
+    margin:0 auto;
+    background:#0a0a0a;
+    overflow:hidden;
+  }
+
+  /* ===== ЗАСТАВКА ===== */
+  #splash{
+    position:absolute; inset:0; z-index:100;
+    background:linear-gradient(145deg, #1a1410, #0d0a08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    transition:opacity 1.2s ease;
+  }
+  #splash.hide{ opacity:0; pointer-events:none; }
+
+  .splash-hearts{
+    position:absolute; inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .splash-hearts .heart{
+    position:absolute;
+    font-size:clamp(20px, 5vw, 40px);
+    color:rgba(255,255,255,0.03);
+    animation:floatHeart 15s ease-in-out infinite;
+  }
+  .splash-hearts .heart:nth-child(1){ left:5%; top:10%; animation-delay:0s; }
+  .splash-hearts .heart:nth-child(2){ right:8%; top:25%; animation-delay:2s; font-size:30px; }
+  .splash-hearts .heart:nth-child(3){ left:10%; bottom:30%; animation-delay:4s; font-size:25px; }
+  .splash-hearts .heart:nth-child(4){ right:15%; bottom:15%; animation-delay:1s; font-size:35px; }
+  .splash-hearts .heart:nth-child(5){ left:50%; top:50%; animation-delay:3s; font-size:28px; transform:translate(-50%,-50%); }
+  .splash-hearts .heart:nth-child(6){ left:20%; top:60%; animation-delay:5s; font-size:18px; }
+  .splash-hearts .heart:nth-child(7){ right:20%; top:70%; animation-delay:2.5s; font-size:22px; }
+
+  @keyframes floatHeart{
+    0%,100%{ transform:translateY(0) rotate(0deg) scale(1); opacity:0.03; }
+    25%{ transform:translateY(-20px) rotate(5deg) scale(1.05); opacity:0.06; }
+    50%{ transform:translateY(10px) rotate(-3deg) scale(0.95); opacity:0.03; }
+    75%{ transform:translateY(-15px) rotate(4deg) scale(1.03); opacity:0.05; }
+  }
+
+  .splash-content{
+    position:relative; z-index:2;
+    text-align:center;
+    padding:0 30px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100%;
+    width:100%;
+  }
+
+  .splash-ornament{
+    font-size:1.5rem;
+    color:rgba(255,255,255,0.06);
+    letter-spacing:15px;
+    margin-bottom:10px;
+  }
+
+  .splash-names{
+    font-family:'Great Vibes', cursive;
+    font-size:clamp(38px, 10vw, 54px);
+    color:#FFFFFF;
+    line-height:1.15;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6), 0 2px 40px rgba(0,0,0,0.5);
+    margin-bottom:4px;
+  }
+  .splash-amp{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(22px, 5vw, 30px);
+    font-style:italic;
+    color:rgba(255,255,255,0.7);
+    margin:2px 0;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6);
+  }
+  .splash-date{
+    font-family:'Montserrat',sans-serif;
+    font-size:11px;
+    letter-spacing:5px;
+    color:rgba(255,255,255,0.5);
+    margin-bottom:25px;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6);
+  }
+  .splash-divider{
+    width:50px;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    margin:6px auto 16px;
+  }
+
+  .splash-btn{
+    position:relative;
+    padding:16px 48px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:60px;
+    color:#fff;
+    font-family:'Montserrat',sans-serif;
+    font-size:11px;
+    letter-spacing:7px;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:all 0.6s cubic-bezier(0.16,1,0.3,1);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    -webkit-tap-highlight-color:transparent;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    box-shadow: 0 0 60px rgba(255,255,255,0.02);
+  }
+  .splash-btn:hover{
+    background:rgba(255,255,255,0.08);
+    border-color:rgba(255,255,255,0.2);
+    transform:scale(1.03);
+  }
+  .splash-btn:active{
+    transform:scale(0.95);
+    background:rgba(255,255,255,0.1);
+  }
+  .splash-btn .btn-icon{
+    font-size:12px;
+    opacity:0.3;
+    transition:all 0.5s ease;
+  }
+  .splash-btn:hover .btn-icon{
+    opacity:0.8;
+    transform:rotate(180deg);
+  }
+  .splash-btn .ripple{
+    position:absolute;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+    transform:scale(0);
+    animation:rippleAnim 0.8s ease-out forwards;
+    pointer-events:none;
+  }
+  @keyframes rippleAnim{ to{ transform:scale(8); opacity:0; } }
+
+  .splash-hint{
+    font-family:'Montserrat',sans-serif;
+    font-size:9px;
+    letter-spacing:4px;
+    color:rgba(255,255,255,0.08);
+    margin-top:16px;
+    animation:hintPulse 3s ease-in-out infinite;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9);
+  }
+  @keyframes hintPulse{
+    0%,100%{ opacity:0.06; }
+    50%{ opacity:0.25; }
+  }
+
+  .splash-watermark{
+    position:absolute;
+    bottom:18px;
+    left:0;
+    right:0;
+    text-align:center;
+    z-index:3;
+    font-family:'Montserrat',sans-serif;
+    font-size:7px;
+    letter-spacing:3px;
+    color:rgba(255,255,255,0.06);
+    text-transform:uppercase;
+    pointer-events:none;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9);
+  }
+  .splash-watermark span{
+    color:rgba(255,255,255,0.08);
+  }
+
+  /* ===== ПОЛНОЭКРАННОЕ ВИДЕО ===== */
+  #fullVideoContainer{
+    position:absolute; inset:0; z-index:50;
+    background:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition:opacity 1s ease;
+    pointer-events:none;
+  }
+  #fullVideoContainer.show{ opacity:1; pointer-events:auto; }
+  #fullVideoContainer video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  /* ===== ОСНОВНОЙ САЙТ ===== */
+  #site{
+    position:absolute; inset:0;
+    overflow-y:scroll;
+    scroll-snap-type:y mandatory;
+    scrollbar-width:none;
+    background:#FFF9F2;
+    z-index:1;
+    opacity:0;
+    transition:opacity 1.5s ease;
+  }
+  #site.show{ opacity:1; }
+  #site::-webkit-scrollbar{ display:none; }
+
+  .page{
+    position:relative;
+    height:100vh;
+    height:100dvh;
+    scroll-snap-align:start;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:#0a0a0a;
+  }
+
+  /* ===== ВИДЕО ФОН ===== */
+  .page .bg-video{
+    position:absolute; inset:0;
+    overflow:hidden;
+    z-index:0;
+  }
+  .page .bg-video video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .page .bg-video::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.3) 100%);
+  }
+
+  .page .content{
+    position:relative; z-index:2;
+    text-align:center;
+    padding:0 30px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100%;
+    width:100%;
+    opacity:0;
+    transform:scale(0.92) translateY(30px);
+    filter:blur(12px);
+    transition:opacity 2s cubic-bezier(0.16,1,0.3,1),
+                transform 2s cubic-bezier(0.16,1,0.3,1),
+                filter 2s cubic-bezier(0.16,1,0.3,1);
+  }
+  .page .content.show{
+    opacity:1;
+    transform:scale(1) translateY(0);
+    filter:blur(0);
+  }
+
+  /* ===== СТРАНИЦА 2 — VIDEO2 (С ЧЕРНОЙ ОБВОДКОЙ) ===== */
+  .page-2 .content .eyebrow{
+    font-family:'Montserrat',sans-serif;
+    font-size:10px;
+    letter-spacing:6px;
+    color:#FFFFFF;
+    text-transform:uppercase;
+    margin-bottom:20px;
+    text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.7), 0 2px 30px rgba(0,0,0,0.5);
+    opacity:0;
+    transform:translateY(15px);
+    transition:opacity 1.2s ease 0.5s, transform 1.2s ease 0.5s;
+  }
+  .page-2 .content.show .eyebrow{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .page-2 .content .headline{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(26px, 6.5vw, 34px);
+    font-style:italic;
+    font-weight:600;
+    color:#FFFFFF;
+    line-height:1.4;
+    margin-bottom:12px;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 30px rgba(0,0,0,0.7), 0 2px 40px rgba(0,0,0,0.5);
+    opacity:0;
+    transform:translateY(15px);
+    transition:opacity 1.2s ease 0.8s, transform 1.2s ease 0.8s;
+  }
+  .page-2 .content.show .headline{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .page-2 .content .sub-text{
+    font-family:'Montserrat',sans-serif;
+    font-size:clamp(14px, 3.5vw, 17px);
+    color:#FFFFFF;
+    line-height:1.8;
+    font-weight:300;
+    letter-spacing:0.5px;
+    text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.7), 0 1px 30px rgba(0,0,0,0.5);
+    opacity:0;
+    transform:translateY(15px);
+    transition:opacity 1.2s ease 1.1s, transform 1.2s ease 1.1s;
+  }
+  .page-2 .content.show .sub-text{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .page-2 .content .divider{
+    width:60px;
+    height:2px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    margin:18px auto;
+    opacity:0;
+    transform:scaleX(0.3);
+    transition:opacity 1.2s ease 1.4s, transform 1.2s ease 1.4s;
+  }
+  .page-2 .content.show .divider{
+    opacity:1;
+    transform:scaleX(1);
+  }
+
+  /* ===== СТРАНИЦА 3 — VIDEO1 (С ЧЕРНОЙ ОБВОДКОЙ) ===== */
+  .page-3 .content .date-big{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(56px, 15vw, 76px);
+    font-weight:700;
+    color:#FFFFFF;
+    line-height:1;
+    text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.7), 0 2px 50px rgba(0,0,0,0.5);
+    opacity:0;
+    transform:scale(0.8) translateY(20px);
+    transition:opacity 1.4s ease 0.5s, transform 1.4s cubic-bezier(0.34,1.56,0.64,1) 0.5s;
+  }
+  .page-3 .content.show .date-big{
+    opacity:1;
+    transform:scale(1) translateY(0);
+  }
+  .page-3 .content .month{
+    font-family:'Montserrat',sans-serif;
+    font-size:14px;
+    letter-spacing:6px;
+    color:#FFFFFF;
+    text-transform:uppercase;
+    margin-top:6px;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 25px rgba(0,0,0,0.7);
+    opacity:0;
+    transform:translateY(15px);
+    transition:opacity 1.2s ease 0.9s, transform 1.2s ease 0.9s;
+  }
+  .page-3 .content.show .month{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .page-3 .content .day{
+    font-family:'Montserrat',sans-serif;
+    font-size:11px;
+    letter-spacing:4px;
+    color:#FFFFFF;
+    margin-top:4px;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 25px rgba(0,0,0,0.7);
+    opacity:0;
+    transform:translateY(10px);
+    transition:opacity 1.2s ease 1.2s, transform 1.2s ease 1.2s;
+  }
+  .page-3 .content.show .day{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .page-3 .content .divider{
+    width:60px;
+    height:2px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    margin:20px auto;
+    opacity:0;
+    transform:scaleX(0.3);
+    transition:opacity 1.2s ease 1.5s, transform 1.2s ease 1.5s;
+  }
+  .page-3 .content.show .divider{
+    opacity:1;
+    transform:scaleX(1);
+  }
+  .page-3 .content .time{
+    font-family:'Cormorant Garamond', serif;
+    font-size:18px;
+    font-style:italic;
+    color:#FFFFFF;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 25px rgba(0,0,0,0.7);
+    opacity:0;
+    transform:translateY(10px);
+    transition:opacity 1.2s ease 1.8s, transform 1.2s ease 1.8s;
+  }
+  .page-3 .content.show .time{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ===== ТАЙМЕР — БЕЛЫЙ С ЧЕРНОЙ ОБВОДКОЙ ===== */
+  .timer-container{
+    margin-top:20px;
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity 1.4s ease 2.1s, transform 1.4s ease 2.1s;
+  }
+  .page-3 .content.show .timer-container{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .timer-grid{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .timer-cell{
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-radius:16px;
+    padding:14px 16px;
+    min-width:65px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 0 40px rgba(0,0,0,0.1);
+    transition:all 0.3s ease;
+  }
+  .timer-cell:hover{
+    border-color:rgba(255,255,255,0.15);
+    box-shadow:0 0 60px rgba(0,0,0,0.15);
+  }
+  .timer-num{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(30px, 7.5vw, 38px);
+    font-weight:700;
+    color:#FFFFFF;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 30px rgba(0,0,0,0.7), 0 2px 40px rgba(0,0,0,0.5);
+    line-height:1.1;
+  }
+  .timer-unit{
+    font-family:'Montserrat',sans-serif;
+    font-size:9px;
+    letter-spacing:3px;
+    color:#FFFFFF;
+    text-transform:uppercase;
+    margin-top:4px;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 25px rgba(0,0,0,0.7);
+  }
+
+  .timer-flower{
+    font-size:14px;
+    color:rgba(255,255,255,0.1);
+    letter-spacing:10px;
+    margin-top:12px;
+    font-weight:100;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9);
+  }
+
+  /* ===== СТРАНИЦА 4 — PHOTO1.PNG ===== */
+  .page-4{
+    background:#FFF9F2;
+  }
+  .page-4 .bg-photo{
+    position:absolute; inset:0;
+    z-index:0;
+  }
+  .page-4 .bg-photo img{
+    width:100%; height:100%;
+    object-fit:cover;
+  }
+  .page-4 .bg-photo::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(255,249,242,0.05) 0%, rgba(255,249,242,0.15) 50%, rgba(255,249,242,0.35) 100%);
+  }
+  .page-4 .content .closing-text{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(20px, 5vw, 26px);
+    line-height:1.7;
+    color:#2C241E;
+    font-style:italic;
+    letter-spacing:0.5px;
+    text-shadow:0 2px 20px rgba(255,248,236,0.5);
+  }
+  .page-4 .content .closing-text em{
+    color:#8B7355;
+    font-style:italic;
+    font-weight:600;
+  }
+  .page-4 .content .divider{
+    width:60px;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(44,36,30,0.2), transparent);
+    margin:28px auto;
+  }
+  .page-4 .content .signature{
+    font-family:'Great Vibes', cursive;
+    font-size:clamp(34px, 8.5vw, 44px);
+    color:#2C241E;
+    margin-top:8px;
+    text-shadow:0 2px 20px rgba(255,248,236,0.3);
+  }
+  .page-4 .content .sub-signature{
+    font-family:'Montserrat',sans-serif;
+    font-size:10px;
+    letter-spacing:4px;
+    color:#8B7355;
+    text-transform:uppercase;
+    margin-top:6px;
+  }
+
+  /* ===== СТРЕЛКА ===== */
+  .scroll-hint{
+    position:absolute;
+    bottom:55px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:10;
+    font-family:'Montserrat',sans-serif;
+    font-size:8px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.2);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    animation:hintPulse2 2.5s ease-in-out infinite;
+    pointer-events:none;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+  }
+  @keyframes hintPulse2{
+    0%,100%{ opacity:0.3; transform:translateX(-50%) translateY(0); }
+    50%{ opacity:0.6; transform:translateX(-50%) translateY(-4px); }
+  }
+  .scroll-hint .line{
+    width:1px;
+    height:25px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.15), transparent);
+  }
+
+  /* ===== СЧЕТЧИК ===== */
+  .page-counter{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:20;
+    font-family:'Montserrat',sans-serif;
+    font-size:10px;
+    letter-spacing:2px;
+    color:rgba(255,255,255,0.15);
+    background:rgba(0,0,0,0.3);
+    padding:4px 14px;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.05);
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+  }
+
+  /* ===== МУЗЫКА ===== */
+  .music-btn{
+    position:fixed;
+    bottom:25px;
+    left:25px;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,0.06);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    z-index:1000;
+    transition:all 0.3s ease;
+  }
+  .music-btn:active{ transform:scale(0.9); }
+  .music-icon{
+    font-size:1.1rem;
+    color:rgba(255,255,255,0.6);
+    transition:all 0.3s ease;
+  }
+  .music-btn.playing .music-icon{
+    animation:musicPulse 1s infinite;
+  }
+  @keyframes musicPulse{
+    0%,100%{ opacity:0.5; transform:scale(1); }
+    50%{ opacity:1; transform:scale(1.15); }
+  }
+
+  /* ===== ВОДЯНОЙ ЗНАК ===== */
+  .watermark{
+    position:absolute;
+    bottom:14px;
+    left:0;
+    right:0;
+    text-align:center;
+    z-index:20;
+    font-family:'Montserrat',sans-serif;
+    font-size:7px;
+    letter-spacing:3px;
+    color:rgba(44,36,30,0.12);
+    text-transform:uppercase;
+    pointer-events:none;
+  }
+  .watermark span{
+    color:rgba(44,36,30,0.15);
+  }
+
+  .watermark-white{
+    position:absolute;
+    bottom:14px;
+    left:0;
+    right:0;
+    text-align:center;
+    z-index:20;
+    font-family:'Montserrat',sans-serif;
+    font-size:7px;
+    letter-spacing:3px;
+    color:rgba(255,255,255,0.06);
+    text-transform:uppercase;
+    pointer-events:none;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+  }
+  .watermark-white span{
+    color:rgba(255,255,255,0.08);
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- ===== ЗАСТАВКА ===== -->
+  <div id="splash">
+    <div class="splash-hearts">
+      <span class="heart">♥</span>
+      <span class="heart">♥</span>
+      <span class="heart">♥</span>
+      <span class="heart">♥</span>
+      <span class="heart">♥</span>
+      <span class="heart">♥</span>
+      <span class="heart">♥</span>
+    </div>
+    <div class="splash-content">
+      <div class="splash-ornament">✦ ✦ ✦</div>
+      <div class="splash-names">Jasur</div>
+      <div class="splash-amp">&amp;</div>
+      <div class="splash-names">Parvina</div>
+      <div class="splash-divider"></div>
+      <div class="splash-date">16 . 08 . 2026</div>
+
+      <button class="splash-btn" id="openBtn">
+        <span class="btn-icon">♥</span>
+        <span>Открыть</span>
+        <span class="btn-icon">♥</span>
+      </button>
+      <div class="splash-hint">нажмите, чтобы начать</div>
+    </div>
+    <div class="splash-watermark">created <span>@Dma12r</span></div>
+  </div>
+
+  <!-- ===== ПОЛНОЭКРАННОЕ ВИДЕО ===== -->
+  <div id="fullVideoContainer">
+    <video id="fullVideo" playsinline preload="auto" muted src="video3.mp4"></video>
+  </div>
+
+  <!-- ===== ОСНОВНОЙ САЙТ ===== -->
+  <div id="site">
+
+    <!-- СТРАНИЦА 2 — VIDEO2 -->
+    <section class="page page-2" data-index="1">
+      <div class="bg-video">
+        <video id="videoBg1" playsinline muted preload="auto" loop src="video2.mp4"></video>
+      </div>
+      <div class="content" id="page2Content">
+        <div class="eyebrow">Свадебное приглашение</div>
+        <div class="headline">Самый важный день в нашей жизни</div>
+        <div class="divider"></div>
+        <div class="sub-text">
+          Мы будем рады разделить с вами<br>
+          этот особенный момент,<br>
+          наполненный любовью и счастьем.
+        </div>
+      </div>
+      <div class="watermark-white">created <span>@Dma12r</span></div>
+      <div class="scroll-hint"><span>листайте</span><span class="line"></span></div>
+    </section>
+
+    <!-- СТРАНИЦА 3 — VIDEO1 (КАЛЕНДАРЬ + ТАЙМЕР) -->
+    <section class="page page-3" data-index="2">
+      <div class="bg-video">
+        <video id="videoBg2" playsinline muted preload="auto" loop src="video1.mp4"></video>
+      </div>
+      <div class="content" id="page3Content">
+        <div class="date-big">16</div>
+        <div class="month">Августа 2026</div>
+        <div class="day">Воскресенье</div>
+        <div class="divider"></div>
+        <div class="time">Начало в 19:00</div>
+
+        <div class="timer-container">
+          <div class="timer-grid" id="timerGrid">
+            <div class="timer-cell">
+              <div class="timer-num" id="t-days">00</div>
+              <div class="timer-unit">дней</div>
+            </div>
+            <div class="timer-cell">
+              <div class="timer-num" id="t-hours">00</div>
+              <div class="timer-unit">часов</div>
+            </div>
+            <div class="timer-cell">
+              <div class="timer-num" id="t-min">00</div>
+              <div class="timer-unit">минут</div>
+            </div>
+            <div class="timer-cell">
+              <div class="timer-num" id="t-sec">00</div>
+              <div class="timer-unit">секунд</div>
+            </div>
+          </div>
+          <div class="timer-flower">✦ ✦ ✦</div>
+        </div>
+      </div>
+      <div class="watermark-white">created <span>@Dma12r</span></div>
+      <div class="scroll-hint"><span>листайте</span><span class="line"></span></div>
+    </section>
+
+    <!-- СТРАНИЦА 4 — PHOTO1.PNG -->
+    <section class="page page-4" data-index="3">
+      <div class="bg-photo"><img src="photo1.png" alt=""></div>
+      <div class="content" id="page4Content">
+        <p class="closing-text">
+          Пусть этот день станет началом<br>
+          вашей <em>прекрасной истории</em>,<br>
+          наполненной любовью и теплом.
+        </p>
+        <div class="divider"></div>
+        <div class="signature">С любовью,</div>
+        <div class="signature" style="font-size:clamp(36px,9vw,48px);margin-top:-6px;">Jasur &amp; Parvina</div>
+        <div class="sub-signature">Ждём встречи!</div>
+      </div>
+      <div class="watermark">created <span>@Dma12r</span></div>
+    </section>
+
+  </div>
+
+  <div class="page-counter" id="pageCounter">1 / 4</div>
+</div>
+
+<!-- КНОПКА МУЗЫКИ -->
+<div class="music-btn" id="musicBtn">
+  <span class="music-icon">♪</span>
+</div>
+
+<script>
+  // ===== ТАЙМЕР =====
+  const target = new Date('2026-08-16T19:00:00');
+
+  function updateTimer() {
+    const now = new Date();
+    let diff = target - now;
+    if (diff < 0) diff = 0;
+
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById('t-days').textContent = String(days).padStart(2, '0');
+    document.getElementById('t-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('t-min').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('t-sec').textContent = String(seconds).padStart(2, '0');
+  }
+
+  updateTimer();
+  setInterval(updateTimer, 1000);
+
+  // ===== МУЗЫКА =====
+  const MUSIC_URL = 'https://files.catbox.moe/fdczpg.m4a';
+  let audio = new Audio(MUSIC_URL);
+  audio.loop = true;
+  audio.volume = 0.4;
+  let isPlaying = false;
+  const musicBtn = document.getElementById('musicBtn');
+
+  function startMusic() {
+    if (audio && !isPlaying) {
+      audio.play().then(() => {
+        isPlaying = true;
+        musicBtn.classList.add('playing');
+      }).catch(() => {});
+    }
+  }
+
+  function toggleMusic() {
+    if (isPlaying) {
+      audio.pause();
+      isPlaying = false;
+      musicBtn.classList.remove('playing');
+    } else {
+      startMusic();
+    }
+  }
+
+  musicBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleMusic();
+  });
+
+  // ===== ЭЛЕМЕНТЫ =====
+  const splash = document.getElementById('splash');
+  const openBtn = document.getElementById('openBtn');
+  const fullVideoContainer = document.getElementById('fullVideoContainer');
+  const fullVideo = document.getElementById('fullVideo');
+  const site = document.getElementById('site');
+  const videoBg1 = document.getElementById('videoBg1');
+  const videoBg2 = document.getElementById('videoBg2');
+
+  // ===== ЗАМЕДЛЕНИЕ ВИДЕО =====
+  fullVideo.playbackRate = 0.85;
+
+  // ===== RIPPLE ЭФФЕКТ =====
+  function createRipple(e, el) {
+    const rect = el.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
+    ripple.style.left = (x - rect.left - size/2) + 'px';
+    ripple.style.top = (y - rect.top - size/2) + 'px';
+    el.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 800);
+  }
+
+  // ===== ОТКРЫТИЕ =====
+  openBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    createRipple(e, openBtn);
+    startMusic();
+
+    splash.classList.add('hide');
+    fullVideoContainer.classList.add('show');
+    fullVideo.play().catch(() => {});
+
+    fullVideo.addEventListener('ended', function() {
+      fullVideoContainer.classList.remove('show');
+      site.classList.add('show');
+      videoBg1.play().catch(() => {});
+      videoBg2.play().catch(() => {});
+
+      setTimeout(() => {
+        document.getElementById('page2Content').classList.add('show');
+      }, 1500);
+    });
+
+    setTimeout(function() {
+      if (!site.classList.contains('show')) {
+        fullVideoContainer.classList.remove('show');
+        site.classList.add('show');
+        videoBg1.play().catch(() => {});
+        videoBg2.play().catch(() => {});
+        setTimeout(() => {
+          document.getElementById('page2Content').classList.add('show');
+        }, 1500);
+      }
+    }, 10000);
+  });
+
+  // ===== SCROLL REVEAL =====
+  const pageContents = [
+    document.getElementById('page2Content'),
+    document.getElementById('page3Content'),
+    document.getElementById('page4Content')
+  ];
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  pageContents.forEach(el => observer.observe(el));
+
+  // ===== СЧЕТЧИК =====
+  const pages = document.querySelectorAll('.page');
+  const counter = document.getElementById('pageCounter');
+
+  const pageObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = parseInt(entry.target.dataset.index);
+        counter.textContent = idx + ' / ' + pages.length;
+      }
+    });
+  }, { threshold: 0.3 });
+
+  pages.forEach(page => pageObserver.observe(page));
+</script>
+</body>
+</html>
