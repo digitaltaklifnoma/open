@@ -182,12 +182,27 @@ body.revealed .work-card { animation: cardReveal 0.5s ease forwards; }
 
 .card-preview {
   position: relative;
-  height: 180px;
+  height: 200px;
   background: #0f0f0e;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+.card-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.work-card:hover .card-preview img {
+  transform: scale(1.05);
+}
+.card-preview .preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(22,26,21,0.9) 0%, transparent 40%);
+  pointer-events: none;
 }
 .work-num {
   font-family: 'Cormorant Garamond', serif;
@@ -195,11 +210,16 @@ body.revealed .work-card { animation: cardReveal 0.5s ease forwards; }
   font-weight: 300;
   font-style: italic;
   color: rgba(201,169,110,0.12);
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  z-index: 1;
 }
 .preview-icon {
   position: absolute;
   font-size: 2.5rem;
   opacity: 0.15;
+  z-index: 1;
 }
 .work-label-big {
   font-family: 'Cinzel', serif;
@@ -211,6 +231,7 @@ body.revealed .work-card { animation: cardReveal 0.5s ease forwards; }
   left: 0;
   right: 0;
   text-align: center;
+  z-index: 2;
 }
 .preview-dots {
   position: absolute;
@@ -433,18 +454,98 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
 
 <script>
 (function() {
-  // ========== ПРОЕКТЫ ==========
+  // ========== ПРОЕКТЫ С ПРЕВЬЮ ==========
   const projects = [
-    { folder: "work1", title: "OQ STYLE | Белый стиль", tags: ["Белый", "Акварель", "Минимализм"], preview: "Элегантное белое приглашение", isNew: false },
-    { folder: "work2", title: "NAVKAR | Для друзей жениха", tags: ["Navkar", "Классика", "Шик"], preview: "Стиль для друзей жениха", isNew: false },
-    { folder: "work3", title: "БАХОР | Вайб весны", tags: ["Весна", "Цветы", "Лепестки"], preview: "Нежное весеннее настроение", isNew: false },
-    { folder: "work4", title: "OSHGA TAKLIFNOMA", tags: ["Плов", "Семья", "Уют"], preview: "Тёплое приглашение на плов", isNew: false },
-    { folder: "work5", title: "MUSLIM STYLE", tags: ["Исламский стиль", "Дуа", "Барокко"], preview: "Духовная элегантность", isNew: false },
-    { folder: "work6", title: "OSHGA TAKLIF 2", tags: ["Плов", "Гостеприимство", "Орнамент"], preview: "Щедрое приглашение на плов", isNew: false },
-    { folder: "work7", title: "МИНИМАЛИСТИКА", tags: ["Минимализм", "Чистота", "Типографика"], preview: "Лаконичное приглашение", isNew: false },
-    { folder: "work8", title: "НОВАЯ", tags: ["Уют", "Белый"], preview: "Элегантное", isNew: false },
-    // ========== НОВАЯ РАБОТА (work9) с бэйджем "НОВЫЙ" ==========
-    { folder: "work9", title: "TAKLIFNOMA", tags: ["Приглашение", "Свадьба", "Классика"], preview: "Элегантное свадебное приглашение", isNew: true }
+    { 
+      folder: "work1", 
+      title: "OQ STYLE | Белый стиль", 
+      tags: ["Белый", "Акварель", "Минимализм"], 
+      preview: "Элегантное белое приглашение", 
+      isNew: false,
+      previewImg: "work1/preview.jpg"
+    },
+    { 
+      folder: "work2", 
+      title: "NAVKAR | Для друзей жениха", 
+      tags: ["Navkar", "Классика", "Шик"], 
+      preview: "Стиль для друзей жениха", 
+      isNew: false,
+      previewImg: "work2/preview.jpg"
+    },
+    { 
+      folder: "work3", 
+      title: "БАХОР | Вайб весны", 
+      tags: ["Весна", "Цветы", "Лепестки"], 
+      preview: "Нежное весеннее настроение", 
+      isNew: false,
+      previewImg: "work3/preview.jpg"
+    },
+    { 
+      folder: "work4", 
+      title: "OSHGA TAKLIFNOMA", 
+      tags: ["Плов", "Семья", "Уют"], 
+      preview: "Тёплое приглашение на плов", 
+      isNew: false,
+      previewImg: "work4/preview.jpg"
+    },
+    { 
+      folder: "work5", 
+      title: "MUSLIM STYLE", 
+      tags: ["Исламский стиль", "Дуа", "Барокко"], 
+      preview: "Духовная элегантность", 
+      isNew: false,
+      previewImg: "work5/preview.jpg"
+    },
+    { 
+      folder: "work6", 
+      title: "OSHGA TAKLIF 2", 
+      tags: ["Плов", "Гостеприимство", "Орнамент"], 
+      preview: "Щедрое приглашение на плов", 
+      isNew: false,
+      previewImg: "work6/preview.jpg"
+    },
+    { 
+      folder: "work7", 
+      title: "МИНИМАЛИСТИКА", 
+      tags: ["Минимализм", "Чистота", "Типографика"], 
+      preview: "Лаконичное приглашение", 
+      isNew: false,
+      previewImg: "work7/preview.jpg"
+    },
+    { 
+      folder: "work8", 
+      title: "НОВАЯ", 
+      tags: ["Уют", "Белый"], 
+      preview: "Элегантное", 
+      isNew: false,
+      previewImg: "work8/preview.jpg"
+    },
+    { 
+      folder: "work9", 
+      title: "TAKLIFNOMA", 
+      tags: ["Приглашение", "Свадьба", "Классика"], 
+      preview: "Элегантное свадебное приглашение", 
+      isNew: true,
+      previewImg: "work9/preview.jpg"
+    },
+    // ===== НОВАЯ РАБОТА 10 =====
+    { 
+      folder: "work10", 
+      title: "OK UY", 
+      tags: ["Семья", "Уют", "Тепло"], 
+      preview: "Тёплое приглашение в дом", 
+      isNew: false,
+      previewImg: "work10/preview.jpg"
+    },
+    // ===== НОВАЯ РАБОТА 11 =====
+    { 
+      folder: "work11", 
+      title: "РОЗОВЫЕ ВЕТРА", 
+      tags: ["Розовый", "Нежность", "Весна"], 
+      preview: "Нежное розовое приглашение", 
+      isNew: false,
+      previewImg: "work11/preview.jpg"
+    }
   ];
   
   // ========== РЕНДЕР СЕТКИ ==========
@@ -468,17 +569,29 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
         badgeHtml = '<div class="new-badge">✦ Новый</div>';
       }
       
-      let previewIcon = '✦';
+      // Иконка для превью
+      let previewIcon = '';
       if (proj.title.toLowerCase().includes('плов')) previewIcon = '🍚';
       else if (proj.title.toLowerCase().includes('muslim')) previewIcon = '🕌';
       else if (proj.title.toLowerCase().includes('бахор') || proj.title.toLowerCase().includes('весн')) previewIcon = '🌸';
       else if (proj.folder === "work9") previewIcon = '💍';
+      else if (proj.folder === "work10") previewIcon = '🏠';
+      else if (proj.folder === "work11") previewIcon = '🌹';
+      else previewIcon = '✦';
+      
+      // Фото превью (если есть)
+      let imgHtml = '';
+      if (proj.previewImg) {
+        imgHtml = `<img src="${proj.previewImg}" alt="${proj.title}" onerror="this.style.display='none'">`;
+      }
       
       card.innerHTML = `
         ${badgeHtml}
         <div class="card-preview">
+          ${imgHtml}
           <div class="work-num">${numStr}</div>
           <div class="preview-icon">${previewIcon}</div>
+          <div class="preview-overlay"></div>
           <div class="work-label-big">${escapeHtml(proj.preview)}</div>
           <div class="preview-dots"></div>
         </div>
@@ -517,6 +630,12 @@ body.revealed footer { opacity: 1; transform: translateY(0); }
     // Для work9 используем invite.html
     if (folderName === 'work9') {
       path = './work9/invite.html';
+    }
+    if (folderName === 'work10') {
+      path = './work10/invite.html';
+    }
+    if (folderName === 'work11') {
+      path = './work11/invite.html';
     }
     if (modalLabel) modalLabel.innerText = displayTitle;
     if (modalLoading) modalLoading.classList.remove('hidden');
